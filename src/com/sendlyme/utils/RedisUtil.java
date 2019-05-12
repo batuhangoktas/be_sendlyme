@@ -45,11 +45,14 @@ public class RedisUtil {
         return redisInstance; 
     } 
 
-	public boolean createSession(String sessionId, String userId) {
+	public boolean createSession(String sessionId, String userId, String ip) {
 
 		Map<String, String> map = new HashMap<>();
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		map.put("userId", userId);
-
+		map.put("user1time", String.valueOf(timestamp.getTime()));
+		map.put("user1Ip", ip);
+		
 		Jedis jedis = pool.getResource();
 		try {
 			// save to redis
@@ -62,7 +65,7 @@ public class RedisUtil {
 		}
 	}
 
-	public String joinSession(String sessionId) {
+	public String joinSession(String sessionId, String ip) {
 		Jedis jedis = pool.getResource();
 		List<String> list = new ArrayList<String>();
 		// after saving the data, lets retrieve them to be sure that it has really added
@@ -80,8 +83,11 @@ public class RedisUtil {
 					return retrieveMap.get("user2Id");
 				else
 				{
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 				String userId = UUID.randomUUID().toString();
 				retrieveMap.put("user2Id", userId);
+				retrieveMap.put("user2Ip", ip);
+				retrieveMap.put("user2time", String.valueOf(timestamp.getTime()));
 				jedis.hmset(sessionId, retrieveMap);
 				jedis.close();
 				return userId;
@@ -125,12 +131,14 @@ public class RedisUtil {
 	public boolean saveFile(String fileId, String filename, String filePath, String status) {
 
 		Jedis jedis = pool.getResource();
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		try {
 			// save to redis
 			Map<String, String> map = new HashMap<>();
 			map.put("filename", filename);
 			map.put("filePath", filePath);
 			map.put("status", status);
+			map.put("time",String.valueOf(timestamp.getTime()));
 			
 			jedis.hmset(fileId, map);
 			jedis.close();
@@ -218,9 +226,10 @@ public class RedisUtil {
 	
 	public boolean tookFile(String fileId) {
 		Jedis jedis = pool.getResource();
-
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		try {
 				jedis.hset(fileId, "status","1");
+				jedis.hset(fileId, "downloadtime",String.valueOf(timestamp.getTime()));
 				jedis.close();
 		} catch (Exception e) {
 			return false;

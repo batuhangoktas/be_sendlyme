@@ -38,7 +38,7 @@ public class SessionCreateService {
 			session.setSessionId(sessionId);
 			session.setUserId(userId);
 			
-			RedisUtil.getInstance().createSession(sessionId, userId);
+			RedisUtil.getInstance().createSession(sessionId, userId, ip);
 			response.setSessionCreateModal(session);
 			response.setStatus(true);
 		}

@@ -29,7 +29,7 @@ public class SessionJoinService {
 		if(DataUtil.ipValidate(ip))
 		{
 			SessionJoinModal session = new SessionJoinModal();
-			String userId = RedisUtil.getInstance().joinSession(sessionId);
+			String userId = RedisUtil.getInstance().joinSession(sessionId,ip);
 			if(!userId.equalsIgnoreCase(""))
 			{
 				session.setUserId(userId);
