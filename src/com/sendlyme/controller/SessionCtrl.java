@@ -3,6 +3,7 @@ package com.sendlyme.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +58,14 @@ public class SessionCtrl {
  
 	@RequestMapping(value="/createsession", method={RequestMethod.POST, RequestMethod.GET}, 
 			  produces = MediaType.APPLICATION_JSON_VALUE)
-	public SessionCreateResponse createSession(@RequestParam(value = "ip", defaultValue = "") String ip) {
+	public SessionCreateResponse createSession(@RequestParam(value = "ip", defaultValue = "") String ip,HttpServletRequest request) {
  		
-		return sessionCreateService.getCreateResponse(ip);
+		   String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+	       if (ipAddress == null) {  
+	         ipAddress = request.getRemoteAddr();  
+	   }
+	       
+		return sessionCreateService.getCreateResponse(ipAddress);
 	}
 	
 	@RequestMapping(value="/hassessionsync", method={RequestMethod.POST, RequestMethod.GET}, 
@@ -71,9 +77,14 @@ public class SessionCtrl {
 	
 	@RequestMapping(value="/joinsession", method={RequestMethod.POST, RequestMethod.GET}, 
 			  produces = MediaType.APPLICATION_JSON_VALUE)
-	public SessionJoinResponse joinSession(@RequestParam(value = "ip", defaultValue = "") String ip, @RequestParam(value = "sessionid", defaultValue = "") String sessionId) {
+	public SessionJoinResponse joinSession(@RequestParam(value = "ip", defaultValue = "") String ip, @RequestParam(value = "sessionid", defaultValue = "") String sessionId,HttpServletRequest request) {
 
-		return sessionJoinService.getJoinResponse(ip, sessionId);
+		 String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+	       if (ipAddress == null) {  
+	         ipAddress = request.getRemoteAddr();  
+	   }
+	       
+		return sessionJoinService.getJoinResponse(ipAddress, sessionId);
 	}
 	
 
