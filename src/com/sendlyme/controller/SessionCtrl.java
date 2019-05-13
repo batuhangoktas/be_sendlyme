@@ -58,7 +58,7 @@ public class SessionCtrl {
  
 	@RequestMapping(value="/createsession", method={RequestMethod.POST, RequestMethod.GET}, 
 			  produces = MediaType.APPLICATION_JSON_VALUE)
-	public SessionCreateResponse createSession(@RequestParam(value = "ip", defaultValue = "") String ip,HttpServletRequest request) {
+	public SessionCreateResponse createSession(HttpServletRequest request) {
  		
 		   String ipAddress = request.getHeader("X-FORWARDED-FOR");  
 	       if (ipAddress == null) {  
@@ -70,14 +70,19 @@ public class SessionCtrl {
 	
 	@RequestMapping(value="/hassessionsync", method={RequestMethod.POST, RequestMethod.GET}, 
 			  produces = MediaType.APPLICATION_JSON_VALUE)
-	public BaseResponse hasSessionSync(@RequestParam(value = "ip", defaultValue = "") String ip,@RequestParam(value = "sessionid", defaultValue = "") String sessionId) {
+	public BaseResponse hasSessionSync(@RequestParam(value = "sessionid", defaultValue = "") String sessionId,HttpServletRequest request) {
 
-		return baseService.getHasSessionSyncService(ip, sessionId);
+		String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+	       if (ipAddress == null) {  
+	         ipAddress = request.getRemoteAddr();  
+	   }
+	       
+		return baseService.getHasSessionSyncService(ipAddress, sessionId);
 	}
 	
 	@RequestMapping(value="/joinsession", method={RequestMethod.POST, RequestMethod.GET}, 
 			  produces = MediaType.APPLICATION_JSON_VALUE)
-	public SessionJoinResponse joinSession(@RequestParam(value = "ip", defaultValue = "") String ip, @RequestParam(value = "sessionid", defaultValue = "") String sessionId,HttpServletRequest request) {
+	public SessionJoinResponse joinSession(@RequestParam(value = "sessionid", defaultValue = "") String sessionId,HttpServletRequest request) {
 
 		 String ipAddress = request.getHeader("X-FORWARDED-FOR");  
 	       if (ipAddress == null) {  
