@@ -28,7 +28,7 @@ public class DownloadFileService {
 	public void downloadFile(HttpServletResponse response, String fileId) throws IOException
 	{
 		 String fileWay = RedisUtil.getInstance().getFile(fileId);
-		 
+		 String fileName = RedisUtil.getInstance().getFileName(fileId);
 	        File file = null;
 	         
 	            file = new File(fileWay);
@@ -52,7 +52,7 @@ public class DownloadFileService {
 	         
 	        response.setContentType(mimeType);
 	         
-	       response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() +"\""));
+	       response.setHeader("Content-Disposition", String.format("inline; filename=\"" + fileName +"\""));
 	 
 	       
 	        response.setContentLength((int)file.length());

@@ -267,4 +267,19 @@ public class RedisUtil {
 			return null;
 		}
 	}
+	
+	public String getFileName(String fileId) {
+		Jedis jedis = pool.getResource();
+	
+		try {
+				Map<String,String> retrieveMap = jedis.hgetAll(fileId);
+				jedis.close();
+				String fileName = retrieveMap.get("filename");				
+		
+			return fileName;
+			
+		}catch (Exception e) {
+			return null;
+		}
+	}
 }

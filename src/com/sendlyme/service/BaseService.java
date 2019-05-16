@@ -56,7 +56,11 @@ public class BaseService {
 	        	String UPLOADED_FOLDER = "/FILE/";
 
 	            byte[] bytes = file.getBytes();
-	            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+	            
+	            String originalFileName = file.getOriginalFilename();
+	            String fileName = originalFileName.substring(originalFileName.lastIndexOf("."),originalFileName.length());
+	            
+	            Path path = Paths.get(UPLOADED_FOLDER + fileId + fileName);
 	            Files.write(path, bytes);
 
 	            RedisUtil.getInstance().userFile(userId,fileId);
