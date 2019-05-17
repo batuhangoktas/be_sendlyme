@@ -84,7 +84,7 @@ public class RedisUtil {
 				else
 				{
 				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-				String userId = UUID.randomUUID().toString();
+				String userId = "u_" + UUID.randomUUID().toString();
 				retrieveMap.put("user2Id", userId);
 				retrieveMap.put("user2Ip", ip);
 				retrieveMap.put("user2time", String.valueOf(timestamp.getTime()));

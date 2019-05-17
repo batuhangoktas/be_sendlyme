@@ -31,8 +31,8 @@ public class SessionCreateService {
 		
 		if(DataUtil.ipValidate(ip))
 		{
-			String sessionId = UUID.randomUUID().toString();
-			String userId = UUID.randomUUID().toString();
+			String sessionId =  "s_"+System.currentTimeMillis()+"_"+UUID.randomUUID().toString();
+			String userId = "u_" + UUID.randomUUID().toString();
 			
 			SessionCreateModal session = new SessionCreateModal();
 			session.setSessionId(sessionId);
