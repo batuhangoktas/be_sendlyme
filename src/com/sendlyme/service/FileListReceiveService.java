@@ -1,5 +1,7 @@
 package com.sendlyme.service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
+import com.sendlyme.modals.FileListAndTimeModal;
 import com.sendlyme.modals.FileListModal;
+import com.sendlyme.modals.TimeAndUserModal;
 import com.sendlyme.response.FileListReceiveResponse;
 import com.sendlyme.response.SendlyBeanConstants;
 import com.sendlyme.utils.RedisUtil;
@@ -28,18 +32,34 @@ public class FileListReceiveService {
 		
 		response.setStatus(false);
 		
-        	String sourceUserId = RedisUtil.getInstance().getSessionCoupleId(sessionId, userId);
+        	TimeAndUserModal timeAndUser = RedisUtil.getInstance().getSessionCoupleId(sessionId, userId);
+        	FileListAndTimeModal fileListAndTime = new FileListAndTimeModal();
         	
-        	if(sourceUserId!=null)
+        	long diff = System.currentTimeMillis() - Long.parseLong(timeAndUser.getSessionTime());
+        	
+        	long diffMinutes = diff / (60 * 1000) % 60; 
+        	
+        	if(diffMinutes > 30)
         	{
-        	List<String> fileIdList = RedisUtil.getInstance().getFileListFromSourceId(sourceUserId);
+        		fileListAndTime.setTimeStatus(false);
+        		response.setStatus(true);
+        	}	
+        	else
+        	{
+        	if(timeAndUser.getUser1Id()!=null)
+        	{
+        	List<String> fileIdList = RedisUtil.getInstance().getFileListFromSourceId(timeAndUser.getUser1Id());
         	List<FileListModal> fileList = RedisUtil.getInstance().getFileListInfo(fileIdList);
         	
+        	fileListAndTime.setTimeStatus(true);
+        	fileListAndTime.setTime(String.valueOf(30-diffMinutes));
         	
-        	response.setFileListModalList(fileList);
+        	fileListAndTime.setFileListModalList(fileList);
         	response.setStatus(true);
         	}
-        	
+        	}
+
+        	response.setFileListAndTime(fileListAndTime);
         	return response;
 	}
 }

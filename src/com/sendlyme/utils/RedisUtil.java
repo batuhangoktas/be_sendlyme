@@ -12,6 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import com.sendlyme.modals.FileListModal;
+import com.sendlyme.modals.TimeAndUserModal;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -149,7 +150,9 @@ public class RedisUtil {
 		}
 	}
 	
-	public String getSessionCoupleId(String sessionId, String userId) {
+	public TimeAndUserModal getSessionCoupleId(String sessionId, String userId) {
+		
+		TimeAndUserModal timeAndUser = new TimeAndUserModal();
 		Jedis jedis = pool.getResource();
 		
 		try {
@@ -157,16 +160,21 @@ public class RedisUtil {
 			jedis.close();
 			String tempUserId = retrieveMap.get("userId");
 			String tempUser2Id = retrieveMap.get("user2Id");
-					
+			String user1Time = retrieveMap.get("user1time");
+			timeAndUser.setSessionTime(user1Time);
+			
 			if(tempUserId.equals(userId))
-				return tempUser2Id;
+				timeAndUser.setUser1Id(tempUser2Id);
 			else if (tempUser2Id.equals(userId))
-				return tempUserId;
+				timeAndUser.setUser1Id(tempUserId);
 			else
-					return null;
+				timeAndUser.setUser1Id(null);
+			
+			return timeAndUser;
 		}catch (Exception e) {
 			return null;
 		}
+		
 	}
 	
 	public List<String> getFileListFromSourceId(String userId) {

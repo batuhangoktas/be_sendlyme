@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.sendlyme.modals.FileListModal;
+import com.sendlyme.modals.FileListAndTimeModal;
 
 @Component (value = SendlyBeanConstants.COMPONENT_LIST_RECEIVE_RESPONSE)
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -19,16 +19,15 @@ import com.sendlyme.modals.FileListModal;
 public class FileListReceiveResponse extends BaseResponse{
 	
 	@JsonProperty("data")
-	List<FileListModal> fileListModalList;
-	
-	public List<FileListModal> getFileListModalList() {
-		return fileListModalList;
+	FileListAndTimeModal fileListAndTime;
+
+	public FileListAndTimeModal getFileListAndTime() {
+		return fileListAndTime;
 	}
 
-	public void setFileListModalList(List<FileListModal> fileListModalList) {
-		this.fileListModalList = fileListModalList;
+	public void setFileListAndTime(FileListAndTimeModal fileListAndTime) {
+		this.fileListAndTime = fileListAndTime;
 	}
-	
 	
 	
 
