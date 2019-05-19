@@ -11,6 +11,8 @@ com\sendlyme\response\FileListReceiveResponse.class
 com\sendlyme\response\SessionJoinResponse.class
 com\sendlyme\app\HelloJob.class
 com\sendlyme\service\DownloadFileService.class
+com\sendlyme\modals\FileListAndTimeModal.class
+com\sendlyme\modals\TimeAndUserModal.class
 com\sendlyme\modals\SessionJoinModal.class
 com\sendlyme\service\BaseService.class
 com\sendlyme\modals\SessionCreateModal.class
