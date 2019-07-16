@@ -161,7 +161,9 @@ public class RedisUtil {
 			String tempUserId = retrieveMap.get("userId");
 			String tempUser2Id = retrieveMap.get("user2Id");
 			String user1Time = retrieveMap.get("user1time");
+			String sessionFinish = retrieveMap.get("status");
 			timeAndUser.setSessionTime(user1Time);
+			timeAndUser.setSessionFinish(sessionFinish);
 			
 			if(tempUserId.equals(userId))
 				timeAndUser.setUser1Id(tempUser2Id);
@@ -289,5 +291,18 @@ public class RedisUtil {
 		}catch (Exception e) {
 			return null;
 		}
+	}
+	
+	public boolean finishSession(String sessionId) {
+		Jedis jedis = pool.getResource();
+	
+		try {
+			jedis.hset(sessionId, "status","1");
+			jedis.close();			
+	} catch (Exception e) {
+		return false;
+	}
+	
+		return true;
 	}
 }

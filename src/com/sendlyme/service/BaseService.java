@@ -94,4 +94,18 @@ public class BaseService {
 		
 		return response;
 	}
+	
+	public BaseResponse getFinishSession(String sessionId)
+	{
+		BaseResponse response = context.getBean(SendlyBeanConstants.COMPONENT_BASE_RESPONSE,BaseResponse.class);
+		
+		
+		if(RedisUtil.getInstance().finishSession(sessionId))
+		{
+			response.setStatus(true);
+		}
+		
+		
+		return response;
+	}
 }

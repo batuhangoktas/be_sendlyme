@@ -8,7 +8,14 @@ public class FileListAndTimeModal {
 	List<FileListModal> fileListModalList;
 	String time;
 	boolean timeStatus;
+	boolean sessionFinish=false;
 	
+	public boolean isSessionFinish() {
+		return sessionFinish;
+	}
+	public void setSessionFinish(boolean sessionFinish) {
+		this.sessionFinish = sessionFinish;
+	}
 	public List<FileListModal> getFileListModalList() {
 		return fileListModalList;
 	}

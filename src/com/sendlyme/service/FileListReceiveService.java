@@ -35,6 +35,16 @@ public class FileListReceiveService {
         	TimeAndUserModal timeAndUser = RedisUtil.getInstance().getSessionCoupleId(sessionId, userId);
         	FileListAndTimeModal fileListAndTime = new FileListAndTimeModal();
         	
+        	if(timeAndUser.getSessionFinish() != null)
+        	if(timeAndUser.getSessionFinish().equals("1"))
+        	{
+        		fileListAndTime.setSessionFinish(true);
+        		fileListAndTime.setTimeStatus(false);
+        		response.setStatus(true);
+        		response.setFileListAndTime(fileListAndTime);
+            	return response;
+        	}
+        	
         	long diff = System.currentTimeMillis() - Long.parseLong(timeAndUser.getSessionTime());
         	
         	long diffMinutes = diff / (60 * 1000) % 60; 

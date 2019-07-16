@@ -118,6 +118,13 @@ public class SessionCtrl {
 
 		 	return baseService.getTookFile(fileId);
 	}
+	 
+	 @RequestMapping(value="/finishsession", method={RequestMethod.POST, RequestMethod.GET}, 
+			  produces = MediaType.APPLICATION_JSON_VALUE)
+	public BaseResponse finishSession(@RequestParam(value = "sessionid", defaultValue = "") String sessionId) {
+	       
+		 	return baseService.getFinishSession(sessionId);
+	}
 
 }
 

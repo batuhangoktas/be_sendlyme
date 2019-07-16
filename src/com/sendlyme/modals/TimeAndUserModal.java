@@ -4,6 +4,7 @@ public class TimeAndUserModal {
 
 	String user1Id;
 	String sessionTime;
+	String sessionFinish;
 	
 	public String getUser1Id() {
 		return user1Id;
@@ -17,5 +18,12 @@ public class TimeAndUserModal {
 	public void setSessionTime(String sessionTime) {
 		this.sessionTime = sessionTime;
 	}
+	public String getSessionFinish() {
+		return sessionFinish;
+	}
+	public void setSessionFinish(String sessionFinish) {
+		this.sessionFinish = sessionFinish;
+	}
+	
 	
 }
