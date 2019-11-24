@@ -58,13 +58,15 @@ public class BaseService {
 	            byte[] bytes = file.getBytes();
 	            
 	            String originalFileName = file.getOriginalFilename();
-	            String fileName = originalFileName.substring(originalFileName.lastIndexOf("."),originalFileName.length());
+	            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."),originalFileName.length()).toLowerCase();
 	            
-	            Path path = Paths.get(UPLOADED_FOLDER + fileId + fileName);
+	            originalFileName = originalFileName.replace(originalFileName.substring(originalFileName.lastIndexOf("."), originalFileName.length()),fileExtension);
+	            
+	            Path path = Paths.get(UPLOADED_FOLDER + fileId + fileExtension);
 	            Files.write(path, bytes);
 
 	            RedisUtil.getInstance().userFile(userId,fileId);
-	            RedisUtil.getInstance().saveFile(fileId, file.getOriginalFilename(), path.toString(),"0");
+	            RedisUtil.getInstance().saveFile(fileId, originalFileName, path.toString(),"0",bytes.length);
 	            response.setStatus(true);
 	        	return response;
 	            

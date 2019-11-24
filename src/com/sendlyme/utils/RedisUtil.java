@@ -129,7 +129,7 @@ public class RedisUtil {
 			return false;
 		}
 	}
-	public boolean saveFile(String fileId, String filename, String filePath, String status) {
+	public boolean saveFile(String fileId, String filename, String filePath, String status, int fileSize) {
 
 		Jedis jedis = pool.getResource();
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -140,6 +140,7 @@ public class RedisUtil {
 			map.put("filePath", filePath);
 			map.put("status", status);
 			map.put("time",String.valueOf(timestamp.getTime()));
+			map.put("fileSize", String.valueOf(fileSize));
 			
 			jedis.hmset(fileId, map);
 			jedis.close();
@@ -207,8 +208,9 @@ public class RedisUtil {
 				jedis.close();
 				String filename = retrieveMap.get("filename");
 				String status = retrieveMap.get("status");
+				String fileSize = retrieveMap.get("fileSize");
 				
-				fileList.add(new FileListModal(fileId,filename,status));
+				fileList.add(new FileListModal(fileId,filename,status,fileSize));
 			}
 			
 			

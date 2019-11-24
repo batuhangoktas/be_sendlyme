@@ -5,13 +5,15 @@ public class FileListModal {
 	String id;
 	String name;
 	String status;
+	String fileSize;
 	
 	
-	public FileListModal(String id, String name, String status) {
+	public FileListModal(String id, String name, String status, String fileSize) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.status = status;
+		this.fileSize = fileSize;
 	}
 	public String getName() {
 		return name;
@@ -26,6 +28,12 @@ public class FileListModal {
 	}
 	public String getId() {
 		return id;
+	}
+	public String getFileSize() {
+		return fileSize;
+	}
+	public void setFileSize(String fileSize) {
+		this.fileSize = fileSize;
 	}
 	public void setId(String id) {
 		this.id = id;
